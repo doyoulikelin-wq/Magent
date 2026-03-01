@@ -1,0 +1,41 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment / secrets
+.env
+*.env
+backend/.env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.venv/
+*.egg-info/
+backend/metabodash_backend.egg-info/
+
+# Node
+node_modules/
+dist/
+coverage/
+
+# Temp
+/tmp/
+
+# ===== User Data (DO NOT COMMIT) =====
+# SQLite databases
+*.db
+*.sqlite
+*.sqlite3
+
+# Raw patient / subject data
+data/
+fatty_liver_data_raw/
+
+# Output artifacts
+outputs/
+
+# Uploaded files
+backend/uploads/

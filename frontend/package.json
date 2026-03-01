@@ -1,0 +1,36 @@
+{
+  "name": "metabodash-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0 --port 5173",
+    "prebuild": "node -e \"const g=require('glob').sync('src/**/*.js');if(g.length){console.error('ERROR: .js files in src/',g);process.exit(1)}\"",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --host 0.0.0.0 --port 5173",
+    "e2e": "playwright test -c e2e/playwright.config.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "^5.64.1",
+    "dompurify": "^3.2.3",
+    "marked": "^15.0.6",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.30.0",
+    "recharts": "^2.15.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.52.0",
+    "@types/dompurify": "^3.0.5",
+    "@types/node": "^22.13.8",
+    "@types/react": "^18.3.20",
+    "@types/react-dom": "^18.3.6",
+    "@vitejs/plugin-react-swc": "^3.7.2",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.7.3",
+    "vite": "^6.2.0"
+  }
+}
