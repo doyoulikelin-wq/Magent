@@ -30,6 +30,9 @@ class _FakeResult:
     def all(self):
         return self._items
 
+    def first(self):
+        return self._items[0] if self._items else None
+
 
 class FakeDB:
     def __init__(self, meals, symptoms):
@@ -39,7 +42,13 @@ class FakeDB:
 
     def execute(self, _stmt):
         self.calls += 1
-        return _FakeResult(self.meals if self.calls == 1 else self.symptoms)
+        # calls 1=meals(.all), 2=symptoms(.all), 3+=feature/profile(.first)
+        if self.calls == 1:
+            return _FakeResult(self.meals)
+        elif self.calls == 2:
+            return _FakeResult(self.symptoms)
+        else:
+            return _FakeResult([])
 
 
 def test_build_user_context(monkeypatch):

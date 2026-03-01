@@ -15,13 +15,14 @@ PRE_MEAL_SIM_V1 = {
     "type": "object",
     "required": ["title", "meal_input", "prediction", "alternatives"],
     "properties": {
+        "type": {"type": "string"},
         "title": {"type": "string"},
         "meal_input": {
             "type": "object",
             "required": ["kcal", "meal_time"],
             "properties": {
                 "kcal": {"type": "number", "minimum": 0},
-                "meal_time": {"type": "string", "format": "date-time"},
+                "meal_time": {"type": "string"},
             },
         },
         "prediction": {
@@ -29,8 +30,11 @@ PRE_MEAL_SIM_V1 = {
             "required": ["peak_glucose", "time_to_peak_min", "auc_0_120"],
             "properties": {
                 "peak_glucose": {"type": "number"},
+                "peak_delta": {"type": "number"},
                 "time_to_peak_min": {"type": "number", "minimum": 0},
                 "auc_0_120": {"type": "number"},
+                "baseline": {"type": "number"},
+                "confidence": {"type": "number", "minimum": 0, "maximum": 1},
                 "liver_load_score": {"type": "number", "minimum": 0, "maximum": 1},
             },
         },
@@ -46,6 +50,7 @@ PRE_MEAL_SIM_V1 = {
                 },
             },
         },
+        "evidence": {"type": "object"},
     },
     "additionalProperties": False,
 }
@@ -59,6 +64,7 @@ RESCUE_V1 = {
     "type": "object",
     "required": ["title", "risk_level", "trigger_evidence", "steps", "expected_effect"],
     "properties": {
+        "type": {"type": "string"},
         "title": {"type": "string"},
         "risk_level": {"type": "string", "enum": ["low", "medium", "high"]},
         "trigger_evidence": {
@@ -74,7 +80,7 @@ RESCUE_V1 = {
                 "properties": {
                     "id": {"type": "string"},
                     "label": {"type": "string"},
-                    "duration_min": {"type": "number", "minimum": 0},
+                    "duration_min": {"type": ["number", "null"]},
                 },
             },
         },
@@ -96,6 +102,7 @@ RESCUE_V1 = {
             },
         },
         "expires_at": {"type": "string", "format": "date-time"},
+        "evidence": {"type": "object"},
     },
     "additionalProperties": False,
 }
@@ -109,6 +116,7 @@ DAILY_PLAN_V1 = {
     "type": "object",
     "required": ["title", "risk_windows", "today_goals"],
     "properties": {
+        "type": {"type": "string"},
         "title": {"type": "string"},
         "risk_windows": {
             "type": "array",
@@ -126,6 +134,7 @@ DAILY_PLAN_V1 = {
             "type": "array",
             "items": {"type": "string"},
         },
+        "evidence": {"type": "object"},
     },
     "additionalProperties": False,
 }
@@ -137,12 +146,17 @@ DAILY_PLAN_V1 = {
 
 WEEKLY_GOAL_V1 = {
     "type": "object",
-    "required": ["title", "focus", "target", "tasks"],
+    "required": ["title", "focus", "tasks"],
     "properties": {
+        "type": {"type": "string"},
         "title": {"type": "string"},
         "focus": {"type": "string"},
+        "highlights": {
+            "type": "array",
+            "items": {"type": "string"},
+        },
         "target": {
-            "type": "object",
+            "type": ["object", "null"],
             "required": ["metric", "baseline", "goal", "unit", "window_days"],
             "properties": {
                 "metric": {"type": "string"},
@@ -156,6 +170,7 @@ WEEKLY_GOAL_V1 = {
             "type": "array",
             "items": {"type": "string"},
         },
+        "evidence": {"type": "object"},
     },
     "additionalProperties": False,
 }

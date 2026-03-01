@@ -46,7 +46,7 @@
 - 无效 payload 降级回退（status=degraded，中文安全文案）✅
 - 未知 schema 拒绝（status=invalid，SCHEMA_NOT_FOUND）✅
 - Settings API 路由注册（2 条）✅
-- 前端 TypeScript 编译零错误 ✅
+- 前端 TypeScript 编译零错误 ✅（prebuild glob 依赖已移除，`npm run build` 通过）
 
 ---
 

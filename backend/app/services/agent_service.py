@@ -84,12 +84,16 @@ def _save_action(
     evidence: dict,
     priority: str = "medium",
 ) -> AgentAction:
+    # Validate payload against schema
+    from app.services.payload_validator import validate_payload
+
+    vr = validate_payload(action_type.value, "1.0.0", payload)
     action = AgentAction(
         user_id=user_id,
         action_type=action_type,
-        payload=payload,
+        payload=vr.payload,
         reason_evidence=evidence,
-        status=ActionStatus.valid,
+        status=ActionStatus(vr.status),
         priority=priority,
         payload_version="1.0.0",
     )
@@ -267,7 +271,7 @@ def simulate_pre_meal(
             "peak_glucose": round(peak_glucose, 1),
             "peak_delta": round(peak_delta, 1),
             "time_to_peak_min": time_to_peak_min,
-            "auc_estimate": round(auc_estimate, 1),
+            "auc_0_120": round(auc_estimate, 1),
             "baseline": round(baseline, 1),
             "confidence": round(confidence, 2),
         },
@@ -336,7 +340,9 @@ def check_rescue_needed(db: Session, user_id: uuid.UUID) -> dict[str, Any] | Non
             "delta_peak_low": round(-expected_drop * 0.5, 1),
             "delta_peak_high": round(-expected_drop * 1.5, 1),
         },
-        "checkpoints_min": [30, 60, 120],
+        "followup": {
+            "checkpoints_min": [30, 60, 120],
+        },
         "evidence": {
             "slope_per_5min": round(slope_per_5min, 2),
             "current_mgdl": current,
@@ -418,7 +424,7 @@ def generate_weekly_review(db: Session, user_id: uuid.UUID) -> dict[str, Any]:
         "type": "weekly_review",
         "title": "📊 本周健康复盘",
         "highlights": highlights,
-        "next_focus": next_focus,
+        "focus": next_focus,
         "target": target,
         "tasks": tasks,
         "evidence": {

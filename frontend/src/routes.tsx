@@ -6,6 +6,7 @@ import { GlucosePage } from './pages/GlucosePage'
 import { HealthDataPage } from './pages/HealthDataPage'
 import { HomePage } from './pages/HomePage'
 import { NewChatPage } from './pages/NewChatPage'
+import { SettingsPage } from './pages/SettingsPage'
 
 type Props = {
   onLogout: () => void
@@ -20,6 +21,7 @@ export function AppRoutes({ onLogout }: Props) {
         <Route path="/glucose" element={<GlucosePage />} />
         <Route path="/food" element={<FoodPage />} />
         <Route path="/chat" element={<NewChatPage />} />
+        <Route path="/settings" element={<SettingsPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       <BottomTabBar />
